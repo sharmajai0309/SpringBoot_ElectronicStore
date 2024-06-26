@@ -13,7 +13,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 public class ProductDto {
-
+    @Id
     private String productId ;
     private String title;
     @Column(length = 10000)
