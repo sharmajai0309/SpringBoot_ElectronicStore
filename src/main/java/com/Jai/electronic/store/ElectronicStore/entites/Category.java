@@ -1,10 +1,10 @@
 package com.Jai.electronic.store.ElectronicStore.entites;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.engine.internal.Cascade;
+
+import java.util.HashSet;
 
 
 @Getter
@@ -24,6 +24,10 @@ public class Category {
      private String description;
      private String coverImage;
      // update category from here
+    @OneToMany(mappedBy ="category",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private HashSet<Product> products = new HashSet<>();
+
+
 
 
 

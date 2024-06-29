@@ -1,9 +1,6 @@
 package com.Jai.electronic.store.ElectronicStore.entites;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
@@ -27,6 +24,9 @@ public class Product {
     private Date addedDate;
     private boolean live;
     private boolean stock;
-
+    private String productImage;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name ="category_id")
+    private Category category;
 
 }
