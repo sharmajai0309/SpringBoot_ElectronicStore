@@ -1,22 +1,18 @@
 package com.Jai.electronic.store.ElectronicStore.dtos;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+
 import lombok.*;
 
 import java.util.Date;
-@Entity
+
 @Getter
 @Setter
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
 public class ProductDto {
-    @Id
-    private String productId ;
+    private String productId;
     private String title;
-    @Column(length = 10000)
     private String description;
     private int price;
     private int discountedPrice;
@@ -24,5 +20,7 @@ public class ProductDto {
     private Date addedDate;
     private boolean live;
     private boolean stock;
-    private String productImage;
+    private String productImageName;
+    private CatergoryDto category;
+
 }

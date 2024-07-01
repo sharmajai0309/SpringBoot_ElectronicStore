@@ -112,7 +112,7 @@ public class ProductController {
 
         String fileName = fileService.uploadImage(image,imagePath);
         ProductDto productDto = productService.get(productId);
-        productDto.setProductImage(fileName);
+        productDto.setProductImageName(fileName);
         ProductDto updatedProduct = productService.update(productDto,productId);
 
         ImageResponse Respose = ImageResponse.builder().imageName(updatedProduct.getProductId()).message("product image is successfully Uploaded").status(HttpStatus.CREATED).success(true).build();
@@ -124,7 +124,7 @@ public class ProductController {
     public void serveUserImage(@PathVariable String productId , HttpServletResponse response) throws IOException {
 
         ProductDto productDto = productService.get(productId);
-        InputStream resource =  fileService.getResources(imagePath, productDto.getProductImage());
+        InputStream resource =  fileService.getResources(imagePath, productDto.getProductImageName());
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         StreamUtils.copy(resource,response.getOutputStream());
 

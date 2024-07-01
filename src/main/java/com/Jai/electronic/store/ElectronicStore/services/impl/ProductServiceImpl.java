@@ -1,10 +1,13 @@
 package com.Jai.electronic.store.ElectronicStore.services.impl;
 
+import com.Jai.electronic.store.ElectronicStore.dtos.CatergoryDto;
 import com.Jai.electronic.store.ElectronicStore.dtos.PageableResponse;
 import com.Jai.electronic.store.ElectronicStore.dtos.ProductDto;
+import com.Jai.electronic.store.ElectronicStore.entites.Category;
 import com.Jai.electronic.store.ElectronicStore.entites.Product;
 import com.Jai.electronic.store.ElectronicStore.exception.ResourceNotFoundException;
 import com.Jai.electronic.store.ElectronicStore.helper.Helper;
+import com.Jai.electronic.store.ElectronicStore.repositories.CategoryRepository;
 import com.Jai.electronic.store.ElectronicStore.repositories.ProductRepository;
 import com.Jai.electronic.store.ElectronicStore.services.ProductService;
 import org.modelmapper.ModelMapper;
@@ -26,6 +29,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     @Autowired
     private ModelMapper Mapper;
+    @Autowired
+    private CategoryRepository categoryRepository;
     @Override
     public ProductDto create(ProductDto productDto) {
       Product product =   Mapper.map(productDto,Product.class);
@@ -50,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
         product.setQuantity(productDto.getQuantity());
         product.setLive(productDto.isLive());
         product.setStock(productDto.isStock());
-        product.setProductImage(productDto.getProductImage());
+        product.setProductImage(productDto.getProductImageName());
 
         // Save the updated product back to the repository
         Product updatedProduct = productRepository.save(product);
@@ -104,5 +109,17 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
         Page<Product> page = productRepository.findByTitleContaining(subTitle,pageable);
         return Helper.getPageableResponse(page, ProductDto.class);
+    }
+    @Override
+    public ProductDto createWithCategeory(ProductDto productDto, String categoryId) {
+        //fetch the category
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("Category not found !!") );
+        Product product =   Mapper.map(productDto,Product.class);
+        String productId = UUID.randomUUID().toString();
+        product.setProductId(productId);
+        product.setAddedDate(new Date());
+        product.setCategory(category);
+        Product saveproduct = productRepository.save(product);
+        return Mapper.map(saveproduct,ProductDto.class );
     }
 }

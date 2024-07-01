@@ -13,7 +13,6 @@ import lombok.*;
 public class User {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String userId;
 
 

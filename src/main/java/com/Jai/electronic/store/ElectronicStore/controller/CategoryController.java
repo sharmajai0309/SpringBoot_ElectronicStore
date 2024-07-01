@@ -3,7 +3,9 @@ package com.Jai.electronic.store.ElectronicStore.controller;
 import com.Jai.electronic.store.ElectronicStore.dtos.ApiResponseMessage;
 import com.Jai.electronic.store.ElectronicStore.dtos.CatergoryDto;
 import com.Jai.electronic.store.ElectronicStore.dtos.PageableResponse;
+import com.Jai.electronic.store.ElectronicStore.dtos.ProductDto;
 import com.Jai.electronic.store.ElectronicStore.services.CategoryService;
+import com.Jai.electronic.store.ElectronicStore.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private ProductService productService;
 
     //create
     @PostMapping
@@ -58,6 +62,17 @@ public class CategoryController {
     public ResponseEntity<CatergoryDto> getSingle(@PathVariable String categoryId) {
         CatergoryDto categoryDto = categoryService.get(categoryId);
         return ResponseEntity.ok(categoryDto);
+    }
+    //create Product with Categories
+
+    @PostMapping("/{categoryId}/products")
+    public ResponseEntity<ProductDto> createProductWithCategory(
+            @PathVariable("categoryId") String categoryId,
+            @RequestBody ProductDto dto
+    ){
+       ProductDto productServiceWithCategory  =  productService.createWithCategeory(dto , categoryId);
+        return new ResponseEntity<>(productServiceWithCategory,HttpStatus.CREATED);
+
     }
 
 

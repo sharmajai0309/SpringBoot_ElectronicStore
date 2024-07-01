@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-@Builder
+
 @AllArgsConstructor
 @Table(name = "products")
 public class Product {
